@@ -1,12 +1,13 @@
 import yaml
 from yaml.loader import SafeLoader
 import pandas as pd
+import time 
 
 # New Dictionary for selected parameters from Checks
 parsed_checks = dict()
 
 # Specify path to ComplianceCheckResult file
-path_to_OpenShift_Audit_File = "/enter/path/here/ComplianceResultCheck.yaml"
+path_to_OpenShift_Audit_File = "/add/path/to/file/here/Complianceresultcheck.yaml"
 
 # Open the YAML file and load the YAML file
 with open(path_to_OpenShift_Audit_File) as f:
@@ -20,12 +21,13 @@ with open(path_to_OpenShift_Audit_File) as f:
 
     while number < numberOfChecks:
         parsed_checks.update({number: [
-            data[0]["items"][number]["id"].upper().lstrip("XCCDF_ORG.SSGPROJECT.CONTENT_RULE_").replace("_", " "),
+            data[0]["items"][number]["id"].upper(),
             data[0]["items"][number]["description"],
             data[0]["items"][number]["severity"],
             data[0]["items"][number]["status"]]})
         number = number + 1
 
+# Columns Creation
 df = pd.DataFrame([v for k, v in parsed_checks.items()], columns =['Name', 'Description', 'Severity', 'Status'])
 
 # Setting sort by value order
@@ -41,5 +43,6 @@ df_fail = df[df['Status'].str.contains("FAIL")]
 df = df_pass.merge(right=df_fail, how='outer')
 
 # print(df)
-df.to_csv('test_out.csv')
 
+# Write to CSV file
+df.to_csv('output.csv')
