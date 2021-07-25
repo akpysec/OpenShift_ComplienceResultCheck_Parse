@@ -54,4 +54,4 @@ def compliance_check_result_parse(input_file: str, output_file: str):
 
 compliance_check_result_parse(
     input_file="path/to/input/compliancecheckresult.yaml", 
-    output_file="path/to/input/compliancecheckresult_parsed.xlsx")
+    output_file="path/to/output/compliancecheckresult_parsed.xlsx")
